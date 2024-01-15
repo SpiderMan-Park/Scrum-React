@@ -1,0 +1,174 @@
+/* 拖拽部分样式 */
+
+.drop_wrap {
+  display: flex;
+  width: 100%;
+  overflow: scroll;
+}
+
+.kanban_drop_wrap {
+  display: flex;
+  /* width: 100%; */
+  /* background: #ccc; */
+}
+
+.kanban_drag_wrap {
+  width: 280px;
+  margin-right: 20px;
+  padding: 8px 10px 30px;
+  /* background: rgba(197, 248, 207, 0.4); */
+  background: #ebecf0;
+  border-radius: 6px;
+  /* flex: 1; */
+}
+.kanban_drag_title {
+  text-align: left;
+  font-size: 22px;
+  margin: 10px 0;
+  color: #5f5f5f;
+}
+
+/* 卡片样式 */
+.task_drop_wrap {
+  min-width: 100px;
+}
+
+.task_card {
+  height: 110px;
+  padding: 14px 24px;
+  background: #fff;
+  /* text-align: center; */
+  /* border: 2px solid transparent; */
+  /* border: 2px solid rgb(103, 97, 90); */
+  border-radius: 4px;
+  margin-bottom: 10px;
+  /* background-image: url(../../../../public/task-back.gif); */
+}
+
+.task_card_name {
+  /* font-size: 18px; */
+}
+
+.task_card_top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* 头像 */
+.task_head_picture {
+  width: 50px;
+  height: 40px;
+  border-radius: 50%;
+  background: url(../../../public/touxiang.png);
+  /* background-position: center center;
+    background-repeat: no-repeat; */
+  background-size: cover;
+}
+
+.task_head_picture1 {
+  width: 50px;
+  height: 40px;
+  border-radius: 50%;
+  background: url(../../../public/touxiang2.png);
+  background-size: cover;
+}
+
+.task_head_picture2 {
+  width: 50px;
+  height: 40px;
+  border-radius: 50%;
+  background: url(../../../public/touxiang3.png);
+  background-size: cover;
+}
+
+.task_head_picture3 {
+  width: 50px;
+  height: 40px;
+  border-radius: 50%;
+  background: url(../../../public/touxiang4.png);
+  background-size: cover;
+}
+
+.task_head-p {
+  word-wrap: break-word;
+  margin-left: 10px;
+  margin-bottom: 0;
+  width: 100px;
+  /* height: 40px; */
+  /* line-height: 40px; */
+  font-size: 18px;
+}
+
+.task_card_bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task_owner {
+  margin: 5px 0 0 5px;
+  height: 24px;
+  line-height: 24px;
+  padding: 0px 8px;
+  font-weight: 600;
+  color: #f60;
+  background-color: rgb(237, 233, 161);
+  border-radius: 5px;
+}
+
+.new_task_btn {
+  width: 100%;
+}
+
+.new_task_type.blue {
+  color: rgb(75, 189, 234);
+}
+
+.new_task_type.red {
+  color: #f60;
+}
+
+.task_type-span {
+  margin-left: 2px;
+  padding: 4px 10px;
+  background-color: rgb(234, 230, 255);
+  /* background-color: #DEEBFF; */
+  border-radius: 50%;
+  font-weight: normal;
+}
+
+/* 拖拽区 */
+/* .kanban_drop_wrap {
+    min-width: 300px;
+    border-radius: 6px;
+    background-color: rgb(244, 245, 247);
+    display: flex;
+    flex-direction: column;
+    padding: 0.7rem 0.7rem 1rem;
+    margin-right: 1.5rem;
+}
+
+.task_drop_wrap {
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
+}
+
+.kanban_task_wrap_header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.drop_horizontal_wrap {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex: 1;
+} */
+/* 
+.drop_wrap h1 {
+    width: 200px;
+    background: red;
+    margin-right: 20px;
+} */
