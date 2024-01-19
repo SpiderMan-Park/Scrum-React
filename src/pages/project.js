@@ -2,15 +2,12 @@ import ProjectTable from "./components/project_table"
 import { Space } from 'antd';
 import CreateProjectModal from "./components/create_project_modal";
 import { useDispatch } from 'react-redux'
-import { get_project_list_async, set_project_modal } from "../redux/slice/project";
-import { useEffect } from "react";
+import { set_project_modal } from "../redux/slice/project";
 import ProjectSearch from "./components/project_search";
 
 function Project() {
+    console.log('project render');
     const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(get_project_list_async())
-    }, [])
     function create_project_click() {
         dispatch(set_project_modal({
             show: true,

@@ -5,15 +5,15 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { searchProjectService } from '../../api/project';
 import { set_kanban_data } from '../../redux/slice/drop';
 import { select_epic_list } from '../../redux/slice/kanban';
-import { select_task_types, select_users } from '../../redux/slice/project';
+import useSelectOptions from '../hooks/useSelectOptions';
 
 function SearchForm() {
     const dispatch = useDispatch()
+    const { task_options, users_options } = useSelectOptions()
     const [search_params] = useSearchParams()
     const [form] = Form.useForm()
     const search_epic = search_params.get('epic')
-    const users = useSelector(select_users)
-    const task_types = useSelector(select_task_types)
+
     const epic = useSelector(select_epic_list) || []
     const params = useParams()
     const project_id = params.id
@@ -21,11 +21,6 @@ function SearchForm() {
     useEffect(() => {
         if (search_epic) {
             form.setFieldValue('epic', search_epic)
-            setTimeout(() => {
-                search({
-                    epic: search_epic
-                })
-            }, 500)
         }
     }, [])
 
@@ -79,16 +74,6 @@ function SearchForm() {
             await search(form_data)
         }
     }
-    function render_task_options(arr) {
-        return arr.map(item => {
-            return <Select.Option key={item.type} value={item.type}>{item.name}</Select.Option>
-        })
-    }
-    function render_users_options(arr) {
-        return arr.map(item => {
-            return <Select.Option key={item.username} value={item.username}>{item.username}</Select.Option>
-        })
-    }
     function reset() {
         form.resetFields()
     }
@@ -107,15 +92,15 @@ function SearchForm() {
                 <Form.Item label="主负责人：" name="owner">
                     <Select
                         style={{ width: 140 }}
+                        options={users_options}
                     >
-                        {render_users_options(users)}
                     </Select>
                 </Form.Item>
                 <Form.Item label="任务类型：" name="type">
                     <Select
                         style={{ width: 140 }}
+                        options={task_options}
                     >
-                        {render_task_options(task_types)}
                     </Select>
                 </Form.Item>
                 <Form.Item label="epic：" name="epic">

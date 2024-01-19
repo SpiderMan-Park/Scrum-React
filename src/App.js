@@ -5,14 +5,24 @@ import Register from './pages/register'
 import Layout from './pages/components/layout';
 import Project from './pages/project';
 import Epic from './pages/epic';
-import Kanban from './pages/kanban';
+// import Kanban from './pages/kanban';
 import { notification } from 'antd'
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import EventBus from './util/event';
 import { useDispatch } from 'react-redux'
 import { get_org_async, get_project_list_async, get_task_type_async, get_users_async } from './redux/slice/project';
+import { lazy, Suspense, useEffect } from 'react';
 
+const AsyncKanbanPage = lazy(() => import(/* webpackChunkName: "kanban_page" */'./pages/kanban'))
+function KanbanPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AsyncKanbanPage />
+    </Suspense>
+  )
+}
 function App() {
+  console.log('app render');
   const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -51,6 +61,14 @@ function App() {
     })
   }, [])
 
+  /** 
+   * 注意顶层组件的render次数（复杂、顶层组件）
+   * app
+   * project
+   * kanban
+   * project_table
+   * drop_cp
+  */
   return (
     <div className="App">
       {contextHolder}
@@ -59,7 +77,7 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route element={<Layout />}>
           <Route path='/project' element={<Project />} />
-          <Route path='/project/:id/kanban' element={<Kanban />} />
+          <Route path='/project/:id/kanban' element={<KanbanPage />} />
           <Route path='/project/:id/epic' element={<Epic />} />
         </Route>
       </Routes>

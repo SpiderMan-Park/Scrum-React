@@ -1,11 +1,10 @@
 import { Input, Select, Form, Button, Space } from 'antd'
-import { useDispatch, useSelector } from 'react-redux';
-import { get_project_list_async, select_orgs, select_users, set_current_page, set_search_query } from '../../redux/slice/project';
+import { useDispatch } from 'react-redux';
+import { get_project_list_async, set_current_page, set_search_query } from '../../redux/slice/project';
+import useSelectOptions from '../hooks/useSelectOptions';
 function ProjectSearch() {
     const dispatch = useDispatch()
-
-    const orgs = useSelector(select_orgs)
-    const users = useSelector(select_users)
+    const { orgs_options, users_options } = useSelectOptions()
 
     const [form] = Form.useForm();
     function reset() {
@@ -19,18 +18,6 @@ function ProjectSearch() {
             dispatch(get_project_list_async())
         }
     }
-    const orgs_option = orgs.map(item => {
-        return {
-            value: item.name,
-            label: item.name
-        }
-    })
-    const users_option = users.map(item => {
-        return {
-            value: item.username,
-            label: item.username
-        }
-    })
     return (
         <Form layout="inline" form={form} >
             <Space direction="horizontal" size={'large'}>
@@ -47,7 +34,7 @@ function ProjectSearch() {
                     style={{ width: 200 }}
                 >
                     <Select
-                        options={orgs_option}
+                        options={orgs_options}
                     >
                     </Select>
                 </Form.Item>
@@ -57,7 +44,7 @@ function ProjectSearch() {
                     style={{ width: 200 }}
                 >
                     <Select
-                        options={users_option}
+                        options={users_options}
                     >
                     </Select>
                 </Form.Item>

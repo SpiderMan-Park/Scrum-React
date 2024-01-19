@@ -1,7 +1,7 @@
 import { Table, Space, Button, Pagination } from 'antd';
 import { HeartFilled } from '@ant-design/icons';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux'
-import { change_list, get_project_list_async, select_project_list, select_project_list_data, set_current_page, set_project_modal } from '../../redux/slice/project'
+import { change_list, get_project_list_async, select_project_list, select_project_list_data, select_project_list_loading, set_current_page, set_project_modal } from '../../redux/slice/project'
 import { NavLink } from 'react-router-dom';
 import { store } from '../../redux/store'
 import dayjs from 'dayjs'
@@ -96,15 +96,20 @@ async function del_click(id) {
     store.dispatch(get_project_list_async())
 }
 function ProjectTable() {
+    console.log('ProjectTable render');
+
     const dispatch = useDispatch()
+    const loading = useSelector(select_project_list_loading)
+    // shallowEqual 优化render次数
     const data = useSelector(select_project_list_data, shallowEqual)
+    // let data = useSelector(select_project_list_data)
     function onChange(page) {
         dispatch(set_current_page(page))
         dispatch(get_project_list_async())
     }
     return (
         <>
-            <Table rowKey={'created'} pagination={false} className='project_table_css' columns={columns} dataSource={data.list} />
+            <Table rowKey={'created'} loading={loading} pagination={false} className='project_table_css' columns={columns} dataSource={data.list} />
             <Pagination
                 onChange={onChange}
                 total={data.total}

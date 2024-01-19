@@ -1,17 +1,18 @@
 import { Modal, Form, Input, Select, Divider } from 'antd';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { select_epic_list, select_task_modal_status, set_task_modal } from '../../redux/slice/kanban';
-import { useDispatch } from 'react-redux'
-import { select_task_types, select_users } from '../../redux/slice/project';
 import { add_task, kanban_selector, update_kanban_async, update_task } from '../../redux/slice/drop';
 import { useEffect } from 'react';
+import useSelectOptions from '../hooks/useSelectOptions';
+
 function CreateTaskModal() {
     const { show, type, kanban_key, task_id } = useSelector(select_task_modal_status)
 
     const dispatch = useDispatch()
+    const { task_options, users_options } = useSelectOptions()
+
     const [form] = Form.useForm();
-    const users = useSelector(select_users)
-    const task_types = useSelector(select_task_types)
+
     const kanban_data = useSelector(kanban_selector)
     const epic = useSelector(select_epic_list) || []
     useEffect(() => {
@@ -67,16 +68,6 @@ function CreateTaskModal() {
             show: false
         }))
     };
-    function render_task_options(arr) {
-        return arr.map((item) => {
-            return <Select.Option key={item.type} value={item.type}>{item.name}</Select.Option>
-        })
-    }
-    function render_users_options(arr) {
-        return arr.map((item) => {
-            return <Select.Option key={item.username} value={item.username}>{item.username}</Select.Option>
-        })
-    }
     const epic_options = epic.map((key) => {
         return {
             value: key,
@@ -106,18 +97,18 @@ function CreateTaskModal() {
                     name="type"
                     rules={[{ required: true, message: "请选择任务类型" }]}
                 >
-                    <Select>
-                        {render_task_options(task_types)}
-                    </Select>
+                    <Select
+                        options={task_options}
+                    />
                 </Form.Item>
                 <Form.Item
                     label="主负责人"
                     name="owner"
                     rules={[{ required: true, message: "请选择主负责人" }]}
                 >
-                    <Select>
-                        {render_users_options(users)}
-                    </Select>
+                    <Select
+                        options={users_options}
+                    />
                 </Form.Item>
                 <Form.Item
                     label="epic"

@@ -40,6 +40,8 @@ export const get_project_async = createAsyncThunk(
         state.dispatch(set_kanban_data(kanban))
         // project激活状态保留，备用
         state.dispatch(set_current_project(res.data.data))
+
+        return kanban
     }
 )
 
@@ -113,6 +115,10 @@ const projectSlice = createSlice({
         })
     }
 })
+
+export const select_project_list_loading = (state) => {
+    return state.project.loading
+}
 
 export const select_project_list = (state) => {
     return state.project.list

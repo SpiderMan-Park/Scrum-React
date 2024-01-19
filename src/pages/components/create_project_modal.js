@@ -1,14 +1,15 @@
 import { Modal, Form, Input, Select } from 'antd';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { get_project_list_async, select_orgs, select_project_list, select_project_modal, select_users, set_project_modal } from '../../redux/slice/project';
+import { get_project_list_async, select_project_list, select_project_modal, set_project_modal } from '../../redux/slice/project';
 import axios from '../../util/http'
+import useSelectOptions from '../hooks/useSelectOptions';
+
 function CreateProjectModal() {
     const dispatch = useDispatch()
+    const { orgs_options, users_options } = useSelectOptions()
 
     const modal_data = useSelector(select_project_modal)
-    const orgs = useSelector(select_orgs)
-    const users = useSelector(select_users)
     const project_list = useSelector(select_project_list)
 
     const [form] = Form.useForm();
@@ -55,18 +56,6 @@ function CreateProjectModal() {
             show: false
         }))
     };
-    const orgs_option = orgs.map(item => {
-        return {
-            value: item.name,
-            label: item.name
-        }
-    })
-    const users_option = users.map(item => {
-        return {
-            value: item.username,
-            label: item.username
-        }
-    })
     return (
         <Modal
             title={type === 'edit' ? '编辑项目' : '创建项目'}
@@ -95,7 +84,7 @@ function CreateProjectModal() {
                     rules={[{ required: true, message: '请选择部门' }]}
                 >
                     <Select
-                        options={orgs_option}
+                        options={orgs_options}
                     >
                     </Select>
                 </Form.Item>
@@ -105,7 +94,7 @@ function CreateProjectModal() {
                     rules={[{ required: true, message: '请选择主负责人' }]}
                 >
                     <Select
-                        options={users_option}
+                        options={users_options}
                     >
                     </Select>
                 </Form.Item>

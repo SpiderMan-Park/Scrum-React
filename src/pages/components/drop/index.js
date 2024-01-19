@@ -1,3 +1,4 @@
+import React from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "../../css/drop.css";
 import { Input, Button } from 'antd'
@@ -5,9 +6,38 @@ import TaskDrop from "./task_drop";
 import { useSelector, useDispatch } from 'react-redux'
 import { kanban_order, task_same_order, kanban_selector, task_diff_order, update_kanban_async, add_kanban } from "../../../redux/slice/drop";
 import { set_task_modal } from "../../../redux/slice/kanban";
-function DropCp() {
-    const drag_data = useSelector(kanban_selector)
+import { useState, useEffect, useTransition } from "react";
+function DropCp(props) {
     const dispatch = useDispatch()
+    console.log('DropCp render');
+    const count = props.drop_test_data.count
+    const drag_data = useSelector(kanban_selector)
+    // const [drag_data, set_drag_data] = useState([])
+    // const [isPending, startTransition] = useTransition()
+    // 模拟数据量大
+    // useEffect(() => {
+    //     startTransition(() => {
+    //         let data = []
+    //         for (let i = 0; i < 100; i++) {
+    //             let task = []
+    //             for (let j = 0; j < 30; j++) {
+    //                 task.push({
+    //                     name: `${i}_${j}`,
+    //                     owner: `${i}_${j}`,
+    //                     type: 'bug'
+    //                 })
+    //             }
+    //             data.push({
+    //                 kanban_key: `${i}`,
+    //                 task
+    //             })
+    //         }
+    //         set_drag_data(data)
+    //     })
+    // }, [])
+
+
+
 
     function input_keydown(e) {
         const value = e.target.value.trim()
@@ -89,6 +119,7 @@ function DropCp() {
                                                     {...provided.dragHandleProps}
                                                 >
                                                     <h1 className="kanban_drag_title">{item.kanban_key}</h1>
+                                                    count:{count}
                                                     <TaskDrop task={item} />
                                                     <Button className="new_task_btn" type="primary" onClick={() => {
                                                         new_task_click(item.kanban_key)
@@ -112,5 +143,12 @@ function DropCp() {
         </DragDropContext>
     );
 }
+const DropCpMemo = React.memo(DropCp)
+export default DropCpMemo;
 
-export default DropCp;
+/**
+ * 看板拖拽页面较为复杂，我们的用户量也很大，task数量多，
+ * 渲染会有性能问题，使用react.memo，usememo，usecallback优化了更新性能，
+ * 造成这种原因是因为父组件的更新导致了子组件的重新渲染，要抓主要矛盾
+ * 哪里有性能瓶颈就优化哪里，而不是全部优化
+ */
